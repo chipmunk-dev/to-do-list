@@ -12,4 +12,7 @@ const required = (key, defaultValue = null) => {
 
 export const config = {
 	port: parseInt(required("SERVER_PORT", 8080)),
+	cors: {
+		allowOrigin: required("CORS_ORIGIN"),
+	},
 };
