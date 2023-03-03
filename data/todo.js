@@ -1,4 +1,4 @@
-const data = [];
+const todoDatas = [];
 
 export const save = data => {
 	const { userId, text } = data;
@@ -13,7 +13,7 @@ export const save = data => {
 		text,
 		createdAt: new Date().toDateString(),
 	};
-	data.push(todo);
+	todoDatas.push(todo);
 
 	return todo;
 };
