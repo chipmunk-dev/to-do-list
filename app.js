@@ -5,8 +5,8 @@ import morgan from "morgan";
 import helmet from "helmet";
 
 // local
-import * as config from "./config.js";
-import todoRouter from "./router/todoRouter.js";
+import { config } from "./config.js";
+import todoRouter from "./router/todo.js";
 
 const app = express();
 const corsOptions = {
