@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 import * as userRepository from "../data/user.js";
@@ -17,32 +18,33 @@ export const login = async (request, response) => {
 	if (!user)
 		return response.status(403).json({ message: "invalid authentication" });
 
-	// TODO: apply Bcrypt
 	const decodeMatch = await bcrypt.compare(password, user.password);
 
 	if (!decodeMatch)
 		return response.status(403).json({ message: "invalid authentication" });
 
-	// TODO: apply jwt
-
 	const userResponseDto = userToUserResponseDto(user);
+	const token = createToken(userResponseDto);
 
-	return response.status(200).json({ user: userResponseDto });
+	return response.status(200).json({ token, user: userResponseDto });
 };
 
 export const register = async (request, response) => {
 	const { username, password } = request.body;
-
-	// TODO: apply Bcrypt
 	const salt = await bcrypt.genSalt(config.bcrypt.saltRounds);
 	const hash = await bcrypt.hash(password, salt);
 	const result = await userRepository.create({ username, password: hash });
 	const userResponseDto = userToUserResponseDto(result);
+	const token = createToken(userResponseDto);
 
-	// TODO: apply jwt
-
-	return response.status(201).json({ user: userResponseDto });
+	return response.status(201).json({ token, user: userResponseDto });
 };
 
 // TODO: Auth middleware
 export const me = async (request, response) => {};
+
+const createToken = userInfo => {
+	return jwt.sign(userInfo, config.jwt.secretKey, {
+		expiresIn: config.jwt.expiresIn,
+	});
+};

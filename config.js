@@ -18,5 +18,8 @@ export const config = {
 	bcrypt: {
 		saltRounds: parseInt(required("BCRYPT_SALT_ROUNDS")),
 	},
-	jwt: {},
+	jwt: {
+		secretKey: required("JWT_SECRET_KEY"),
+		expiresIn: parseInt(required("JWT_EXPIRES_IN")),
+	},
 };
