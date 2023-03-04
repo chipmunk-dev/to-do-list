@@ -15,4 +15,8 @@ export const config = {
 	cors: {
 		allowOrigin: required("CORS_ORIGIN"),
 	},
+	bcrypt: {
+		saltRounds: parseInt(required("BCRYPT_SALT_ROUNDS")),
+	},
+	jwt: {},
 };

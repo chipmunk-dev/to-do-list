@@ -12,4 +12,5 @@ router.post("/register", userController.register);
 // 인증 auth
 router.get("/me", userController.me);
 
+router.get("/", userController.getUsers);
 export default router;

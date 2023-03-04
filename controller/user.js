@@ -1,31 +1,48 @@
-import * as userRepository from "../data/user.js";
+import bcrypt from "bcrypt";
 
-export const login = (request, response) => {
+import * as userRepository from "../data/user.js";
+import { config } from "../config.js";
+import { userToUserResponseDto } from "../mapped/user.js";
+
+export const getUsers = async (request, response) => {
+	const userList = await userRepository.findAll();
+
+	return response.status(200).json({ userList });
+};
+
+export const login = async (request, response) => {
 	const { username, password } = request.body;
-	const user = userRepository.findByUsername(username);
+	const user = await userRepository.findByUsername(username);
 
 	if (!user)
 		return response.status(403).json({ message: "invalid authentication" });
+
 	// TODO: apply Bcrypt
-	if (user.password !== password)
+	const decodeMatch = await bcrypt.compare(password, user.password);
+
+	if (!decodeMatch)
 		return response.status(403).json({ message: "invalid authentication" });
 
 	// TODO: apply jwt
-	const sendUserInfo = { ...user };
-	delete sendUserInfo.password;
 
-	return response.status(200).json({ user: sendUserInfo });
+	const userResponseDto = userToUserResponseDto(user);
+
+	return response.status(200).json({ user: userResponseDto });
 };
 
-export const register = (request, response) => {
+export const register = async (request, response) => {
 	const { username, password } = request.body;
-	const user = userRepository.create({ username, password });
+
+	// TODO: apply Bcrypt
+	const salt = await bcrypt.genSalt(config.bcrypt.saltRounds);
+	const hash = await bcrypt.hash(password, salt);
+	const result = await userRepository.create({ username, password: hash });
+	const userResponseDto = userToUserResponseDto(result);
 
 	// TODO: apply jwt
-	const sendUserInfo = { ...user };
-	delete sendUserInfo.password;
-	return response.status(201).json({ user: sendUserInfo });
+
+	return response.status(201).json({ user: userResponseDto });
 };
 
 // TODO: Auth middleware
-export const me = (request, response) => {};
+export const me = async (request, response) => {};
