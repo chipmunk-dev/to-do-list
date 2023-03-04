@@ -17,6 +17,17 @@ export const createList = (reqeust, response) => {
 	}
 };
 
-export const updateList = (reqeust, response) => {};
+export const updateList = (reqeust, response) => {
+	const { id } = reqeust.params;
+	const { text } = reqeust.body;
+	const todoId = todoRepository.updateById({ id, text });
 
-export const deleteList = (reqeust, response) => {};
+	return response.status(200).json({ id: todoId });
+};
+
+export const deleteList = (reqeust, response) => {
+	const { id } = reqeust.params;
+	todoRepository.deleteById(id);
+
+	return response.sendStatus(204);
+};

@@ -1,4 +1,6 @@
-const todoDatas = [];
+let todoDatas = [];
+
+export const findAll = () => todoDatas;
 
 export const save = data => {
 	const { userId, text } = data;
@@ -18,6 +20,16 @@ export const save = data => {
 	return todo;
 };
 
-export const findAll = () => {
-	return todoDatas;
+export const updateById = data => {
+	const { id, text } = data;
+	console.log(id);
+	const findTodo = todoDatas.find(todo => todo.id === parseInt(id));
+	findTodo.text = text;
+
+	return findTodo.id;
+};
+
+export const deleteById = id => {
+	todoDatas = todoDatas.filter(todo => todo.id != parseInt(id));
+	return;
 };
