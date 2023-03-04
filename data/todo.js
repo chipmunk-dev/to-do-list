@@ -17,3 +17,7 @@ export const save = data => {
 
 	return todo;
 };
+
+export const findAll = () => {
+	return todoDatas;
+};
