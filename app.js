@@ -5,7 +5,8 @@ import morgan from "morgan";
 import helmet from "helmet";
 
 // local
-import * as config from "./config.js";
+import { config } from "./config.js";
+import todoRouter from "./router/todo.js";
 
 const app = express();
 const corsOptions = {
@@ -18,9 +19,8 @@ app.use(cors(corsOptions));
 app.use(helmet());
 app.use(morgan("tiny"));
 
-app.get("/", (req, res) => {
-	res.send("Hello World!");
-});
+// route
+app.use("/todo", todoRouter);
 
 app.listen(config.port, () => {
 	console.log("Connect Server...");
