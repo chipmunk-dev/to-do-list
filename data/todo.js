@@ -22,7 +22,6 @@ export const save = data => {
 
 export const updateById = data => {
 	const { id, text } = data;
-	console.log(id);
 	const findTodo = todoDatas.find(todo => todo.id === parseInt(id));
 	findTodo.text = text;
 
