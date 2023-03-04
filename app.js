@@ -7,6 +7,7 @@ import helmet from "helmet";
 // local
 import { config } from "./config.js";
 import todoRouter from "./router/todo.js";
+import userRouter from "./router/user.js";
 
 const app = express();
 const corsOptions = {
@@ -21,6 +22,7 @@ app.use(morgan("tiny"));
 
 // route
 app.use("/todo", todoRouter);
+app.use("/user", userRouter);
 
 app.listen(config.port, () => {
 	console.log("Connect Server...");
