@@ -232,4 +232,13 @@ tags
 .history
 .ionide
 
-# End of https://www.toptal.com/developers/gitignore/api/node,macos,visualstudiocode,dotenv,git,vim
+.yarn/*
+!.yarn/releases
+!.yarn/patches
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
+# if you are NOT using Zero-installs, then:
+# comment the following lines
+!.yarn/cache
