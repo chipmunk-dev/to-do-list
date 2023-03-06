@@ -24,6 +24,13 @@ app.use(morgan("tiny"));
 app.use("/todo", todoRouter);
 app.use("/user", userRouter);
 
+app.use((_req, res, _next) => res.sendStatus(400));
+
+app.use((error, _req, res, _next) => {
+	console.error(error);
+	return res.sendStatus(500);
+});
+
 app.listen(config.port, () => {
 	console.log("Connect Server...");
 });
