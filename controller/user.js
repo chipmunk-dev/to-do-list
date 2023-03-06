@@ -52,7 +52,11 @@ export const register = async (request, response) => {
 };
 
 // TODO: Auth middleware
-export const me = async (request, response) => {};
+export const me = async (request, response) => {
+	const { userId, token } = request;
+
+	return response.status(200).json({ userId, token });
+};
 
 const createToken = userInfo => {
 	return jwt.sign(userInfo, config.jwt.secretKey, {
