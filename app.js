@@ -8,6 +8,7 @@ import helmet from "helmet";
 import { config } from "./config.js";
 import todoRouter from "./router/todo.js";
 import userRouter from "./router/user.js";
+import { connectDB } from "./db/db.js";
 
 const app = express();
 const corsOptions = {
@@ -31,6 +32,9 @@ app.use((error, _req, res, _next) => {
 	return res.sendStatus(500);
 });
 
-app.listen(config.port, () => {
-	console.log("Connect Server...");
+connectDB().then(() => {
+	console.log("Connect DB...");
+	app.listen(config.port, () => {
+		console.log("Connect Server...");
+	});
 });

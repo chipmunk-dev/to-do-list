@@ -1,4 +1,4 @@
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -11,15 +11,18 @@ const required = (key, defaultValue = null) => {
 };
 
 export const config = {
-	port: parseInt(required("SERVER_PORT", 3000)),
+	port: parseInt(required('SERVER_PORT', 3000)),
 	cors: {
-		allowOrigin: required("CORS_ORIGIN"),
+		allowOrigin: required('CORS_ORIGIN'),
 	},
 	bcrypt: {
-		saltRounds: parseInt(required("BCRYPT_SALT_ROUNDS")),
+		saltRounds: parseInt(required('BCRYPT_SALT_ROUNDS')),
 	},
 	jwt: {
-		secretKey: required("JWT_SECRET_KEY"),
-		expiresIn: parseInt(required("JWT_EXPIRES_IN")),
+		secretKey: required('JWT_SECRET_KEY'),
+		expiresIn: parseInt(required('JWT_EXPIRES_IN')),
+	},
+	db: {
+		host: required('DB_HOST'),
 	},
 };
