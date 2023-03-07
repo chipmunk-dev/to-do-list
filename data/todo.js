@@ -1,34 +1,32 @@
-let todoDatas = [];
+import mongoose from 'mongoose';
+import { mapVirtualId } from '../mapped/db.js';
 
-export const findAll = () => todoDatas;
+const schema = new mongoose.Schema(
+	{
+		content: { type: String, required: true },
+		complete: { type: Boolean, required: true },
+		userId: { type: String, require: true },
+	},
+	{ timestamps: true }
+);
+mapVirtualId(schema);
+const Todo = mongoose.model('todo', schema);
 
-export const save = data => {
-	const { userId, text } = data;
-
-	// TODO: validation 적용하기
-	if (!userId || !text) throw new Error("invalide data");
-
-	// TODO: user data 조회 후 데이터 같이 넣어주기
-	const todo = {
-		id: Date.now(),
-		userId,
-		text,
-		createdAt: new Date().toDateString(),
-	};
-	todoDatas.push(todo);
-
-	return todo;
+export const findAll = async () => {
+	return Todo.find();
 };
 
-export const updateById = data => {
-	const { id, text } = data;
-	const findTodo = todoDatas.find(todo => todo.id === parseInt(id));
-	findTodo.text = text;
+export const save = async (data) => {
+	const { userId, content } = data;
 
-	return findTodo.id;
+	return new Todo({ content, complete: false, userId }).save();
 };
 
-export const deleteById = id => {
-	todoDatas = todoDatas.filter(todo => todo.id != parseInt(id));
-	return;
+export const updateById = (data) => {
+	const { id, content } = data;
+	return Todo.findOneAndUpdate({ _id: id }, { content }, { new: true });
+};
+
+export const deleteById = (id) => {
+	return Todo.deleteOne({ _id: id });
 };

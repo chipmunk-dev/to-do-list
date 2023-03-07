@@ -52,7 +52,6 @@ export const register = async (request, response) => {
 	return response.status(201).json({ token, userId });
 };
 
-// TODO: Auth middleware
 export const me = async (request, response) => {
 	const { userId, token } = request;
 

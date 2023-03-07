@@ -1,33 +1,37 @@
-import * as todoRepository from "../data/todo.js";
+import * as todoRepository from '../data/todo.js';
+import { todoToTodoResponseDto } from '../mapped/todo.js';
 
-export const getList = (reqeust, response) => {
-	const list = todoRepository.findAll();
-	return response.status(200).json({ list });
+export const getList = async (_reqeust, response) => {
+	const list = await todoRepository.findAll();
+	const mapList = list.map((todo) => todoToTodoResponseDto(todo));
+	return response.status(200).json({ list: mapList });
 };
 
-export const createList = (reqeust, response) => {
-	const { userId, text } = reqeust.body;
+export const createList = async (reqeust, response) => {
+	const { userId, content } = reqeust.body;
 
 	try {
-		const todo = todoRepository.save({ userId, text });
+		const todo = await todoRepository.save({ userId, content });
+		const mapTodo = todoToTodoResponseDto(todo);
 
-		return response.status(201).json(todo);
+		return response.status(201).json(mapTodo);
 	} catch (error) {
 		return response.status(401).json({ message: error.message });
 	}
 };
 
-export const updateList = (reqeust, response) => {
+export const updateList = async (reqeust, response) => {
 	const { id } = reqeust.params;
-	const { text } = reqeust.body;
-	const todoId = todoRepository.updateById({ id, text });
+	const { content } = reqeust.body;
+	const todo = await todoRepository.updateById({ id, content });
+	const todoResponse = todoToTodoResponseDto(todo);
 
-	return response.status(200).json({ id: todoId });
+	return response.status(200).json(todoResponse);
 };
 
-export const deleteList = (reqeust, response) => {
+export const deleteList = async (reqeust, response) => {
 	const { id } = reqeust.params;
-	todoRepository.deleteById(id);
+	await todoRepository.deleteById(id);
 
 	return response.sendStatus(204);
 };

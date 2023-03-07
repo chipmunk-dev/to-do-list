@@ -9,7 +9,7 @@ mapVirtualId(schema);
 const User = mongoose.model('user', schema);
 
 export const findAll = async () => {
-	return await User.find();
+	return User.find();
 };
 
 export const findByUserId = async (userId) => {
@@ -22,5 +22,5 @@ export const findByUsername = async (username) => {
 
 export const create = async (data) => {
 	const { username, password } = data;
-	return await new User({ username, password }).save();
+	return new User({ username, password }).save();
 };

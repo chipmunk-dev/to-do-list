@@ -1,10 +1,10 @@
-import { body, param } from "express-validator";
-import { resultOfValidation } from "./resultOfValiation.js";
+import { body, param } from 'express-validator';
+import { resultOfValidation } from './resultOfValiation.js';
 
 const commonRule = {
-	checkId: [param("id").notEmpty().withMessage("고유 id가 필요합니다.")],
+	checkId: [param('id').notEmpty().withMessage('고유 id가 필요합니다.')],
 	checkText: [
-		body("text").trim().notEmpty().withMessage("내용이 비어있습니다."),
+		body('content').trim().notEmpty().withMessage('내용이 비어있습니다.'),
 	],
 };
 
