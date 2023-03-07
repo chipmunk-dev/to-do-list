@@ -34,7 +34,6 @@ app.use((error, _req, res, _next) => {
 
 connectDB().then(() => {
 	console.log("Connect DB...");
-
 	app.listen(config.port, () => {
 		console.log("Connect Server...");
 	});

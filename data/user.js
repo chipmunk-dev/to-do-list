@@ -1,23 +1,26 @@
-let userId = 0;
-let userList = [];
+import mongoose from 'mongoose';
+import { mapVirtualId } from '../mapped/db.js';
 
-export const findAll = () => userList;
+const schema = new mongoose.Schema({
+	username: { type: 'string', required: true },
+	password: { type: 'string', required: true },
+});
+mapVirtualId(schema);
+const User = mongoose.model('user', schema);
 
-export const findByUsername = async username =>
-	userList.find(user => user.username === username);
+export const findAll = async () => {
+	return await User.find();
+};
 
-export const findByUserId = async userId =>
-	userList.find(user => user.id === userId);
+export const findByUserId = async (userId) => {
+	return User.findById(userId);
+};
 
-export const create = async data => {
+export const findByUsername = async (username) => {
+	return User.findOne({ username });
+};
+
+export const create = async (data) => {
 	const { username, password } = data;
-	const user = {
-		id: ++userId,
-		username,
-		password,
-		createdAt: new Date().toDateString(),
-	};
-	userList.push(user);
-
-	return user;
+	return await new User({ username, password }).save();
 };
