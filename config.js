@@ -22,4 +22,7 @@ export const config = {
 		secretKey: required("JWT_SECRET_KEY"),
 		expiresIn: parseInt(required("JWT_EXPIRES_IN")),
 	},
+	db: {
+		host: required("DB_HOST"),
+	},
 };
