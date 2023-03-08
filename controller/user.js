@@ -28,6 +28,7 @@ export const login = async (request, response) => {
 
 	const { id: userId } = user;
 	const token = createToken(userId);
+	setToken(response, token);
 
 	return response.status(200).json({ token, userId });
 };
@@ -48,8 +49,15 @@ export const register = async (request, response) => {
 		password: hash,
 	});
 	const token = createToken(userId);
+	setToken(response, token);
 
 	return response.status(201).json({ token, userId });
+};
+
+export const logout = async (request, response) => {
+	response.cookie('token', '');
+
+	return response.sendStatus(200);
 };
 
 export const me = async (request, response) => {
@@ -62,4 +70,14 @@ const createToken = (id) => {
 	return jwt.sign({ id }, config.jwt.secretKey, {
 		expiresIn: config.jwt.expiresIn,
 	});
+};
+
+const setToken = (response, token) => {
+	const options = {
+		maxAge: config.jwt.expiresIn * 1000,
+		httpOnly: true,
+		sameSite: 'none',
+		secure: true,
+	};
+	response.cookie('token', token, options);
 };
