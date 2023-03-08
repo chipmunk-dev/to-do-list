@@ -37,10 +37,7 @@ export const register = async (request, response) => {
 	const { username, password } = request.body;
 	const user = await userRepository.findByUsername(username);
 
-	if (user)
-		return response
-			.status(409)
-			.json({ message: '이미 존재하는 아이디입니다.' });
+	if (user) return response.status(409).json({ message: '이미 존재하는 아이디입니다.' });
 
 	const salt = await bcrypt.genSalt(config.bcrypt.saltRounds);
 	const hash = await bcrypt.hash(password, salt);
@@ -66,10 +63,19 @@ export const me = async (request, response) => {
 	return response.status(200).json({ userId, token });
 };
 
+export const csrfToken = async (_request, response, _next) => {
+	const csrfToken = await generateCSRFToken();
+	response.status(200).json({ csrfToken });
+};
+
 const createToken = (id) => {
 	return jwt.sign({ id }, config.jwt.secretKey, {
 		expiresIn: config.jwt.expiresIn,
 	});
+};
+
+const generateCSRFToken = () => {
+	return bcrypt.hash(config.csrf.plainToken, 1);
 };
 
 const setToken = (response, token) => {
