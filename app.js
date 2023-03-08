@@ -10,6 +10,7 @@ import todoRouter from './router/todo.js';
 import userRouter from './router/user.js';
 import { config } from './config.js';
 import { connectDB } from './db/db.js';
+import { csrfCheck } from './middleware/csrf.js';
 
 const app = express();
 const corsOptions = {
@@ -24,6 +25,7 @@ app.use(cors(corsOptions));
 app.use(helmet());
 app.use(morgan('tiny'));
 
+app.use(csrfCheck);
 // route
 app.use('/todo', todoRouter);
 app.use('/user', userRouter);
