@@ -8,9 +8,10 @@ import cookieParser from 'cookie-parser';
 // local
 import todoRouter from './router/todo.js';
 import userRouter from './router/user.js';
-import { config } from './config.js';
-import { connectDB } from './db/db.js';
+import rateLimit from './middleware/rate-limiter.js';
 import { csrfCheck } from './middleware/csrf.js';
+import { connectDB } from './db/db.js';
+import { config } from './config.js';
 
 const app = express();
 const corsOptions = {
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(helmet());
 app.use(morgan('tiny'));
+app.use(rateLimit);
 
 app.use(csrfCheck);
 // route
