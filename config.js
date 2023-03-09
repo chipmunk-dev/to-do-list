@@ -32,4 +32,12 @@ export const config = {
 		windowMs: parseInt(required('RATE_LIMIT_MS')),
 		max: parseInt(required('RATE_LIMIT_MAX')),
 	},
+	swagger: {
+		apiVersion: required('SWAGGER_API_VERION'),
+		auth: {
+			type: required('SWAGGER_AUTH_TYPE'),
+			scheme: required('SWAGGER_AUTH_SCHEME'),
+			format: required('SWAGGER_AUTH_FORMAT'),
+		},
+	},
 };

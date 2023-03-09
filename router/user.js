@@ -6,6 +6,13 @@ import authValidation from '../middleware/validation/authValidation.js';
 
 const router = express.Router();
 
+/**
+ * @openapi
+ * /login:
+ *   get:
+ *     responses:
+ *       200:
+ */
 router.post('/login', userController.login);
 
 router.post('/register', authValidation.signup, userController.register);
