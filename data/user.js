@@ -8,10 +8,6 @@ const schema = new mongoose.Schema({
 mapVirtualId(schema);
 const User = mongoose.model('user', schema);
 
-export const findAll = async () => {
-	return User.find();
-};
-
 export const findByUserId = async (userId) => {
 	return User.findById(userId);
 };

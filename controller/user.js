@@ -4,12 +4,6 @@ import bcrypt from 'bcrypt';
 import * as userRepository from '../data/user.js';
 import { config } from '../config.js';
 
-export const getUsers = async (_request, response) => {
-	const userList = await userRepository.findAll();
-
-	return response.status(200).json({ userList });
-};
-
 export const login = async (request, response) => {
 	const { username, password } = request.body;
 	const user = await userRepository.findByUsername(username);
